@@ -60,7 +60,7 @@ if uploaded_file is not None :
 
     textcolor = (255, 255, 255)
     textsize = int(img.size[1]/30)
-    font = ImageFont.truetype('arial.ttf', size=textsize)
+    font = ImageFont.truetype('./arial.ttf',size=textsize)
 
     for result in results:
         draw = ImageDraw.Draw(img)

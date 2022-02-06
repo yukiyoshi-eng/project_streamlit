@@ -3,7 +3,24 @@ import requests
 from PIL import Image,ImageDraw,ImageFont
 import io
 
-def rotation_image(img):
+st.title('顔認識APP')
+subscription＿key = 'b113a50ce28743b3a17de31bd9973e57'
+assert subscription＿key
+face_api_url = 'https://20220127-yuki.cognitiveservices.azure.com/face/v1.0/detect'
+headers = {
+        'Content-Type':'application/octet-stream',
+        'Ocp-Apim-Subscription-Key':subscription＿key
+        }
+params = {
+        'returnFaceId':'true',
+        'returnFaceAttributes':'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise'
+    }
+    
+uploaded_file = st.file_uploader("Choose an image...",type='jpg')
+
+if uploaded_file is not None :
+    img = Image.open(uploaded_file)
+    
     exifinfo = img._getexif()
     orientation = exifinfo.get(0x112, 1)
     if orientation == 1:
@@ -31,25 +48,6 @@ def rotation_image(img):
         img = img.transpose(Image.ROTATE_90)
     else:
         pass
-
-st.title('顔認識APP')
-subscription＿key = 'b113a50ce28743b3a17de31bd9973e57'
-assert subscription＿key
-face_api_url = 'https://20220127-yuki.cognitiveservices.azure.com/face/v1.0/detect'
-headers = {
-        'Content-Type':'application/octet-stream',
-        'Ocp-Apim-Subscription-Key':subscription＿key
-        }
-params = {
-        'returnFaceId':'true',
-        'returnFaceAttributes':'age,gender,headPose,smile,facialHair,glasses,emotion,hair,makeup,occlusion,accessories,blur,exposure,noise'
-    }
-    
-uploaded_file = st.file_uploader("Choose an image...",type='jpg')
-
-if uploaded_file is not None :
-    img = Image.open(uploaded_file)
-    rotation_image(img)
 
     with io.BytesIO() as output:
         img.save(output,format='JPEG')
